@@ -1,13 +1,12 @@
-import java.util.*;
-import java.math.*;
+import java.math.BigInteger;
 
 class Solution {
     public String solution(String a, String b) {
-        BigInteger A = new BigInteger(a);
-        BigInteger B = new BigInteger(b);
-        BigInteger AB = A.add(B);
-        String answer = AB.toString();
+        BigInteger numA = new BigInteger(a);
+        BigInteger numB = new BigInteger(b);
         
-        return answer;
+        BigInteger sum = numA.add(numB);
+        
+        return sum.toString();
     }
 }
