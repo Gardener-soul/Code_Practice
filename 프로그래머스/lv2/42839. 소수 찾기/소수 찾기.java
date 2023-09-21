@@ -1,13 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
 class Solution {
     
     static String[] arr;
-    static List<String> sarr;
     static String[] res;
     static boolean[] chk;
     static boolean[] chk2;
@@ -22,10 +18,8 @@ class Solution {
               	String s="";
                 for(int i=0; i<N; i++){
                     if(chk2[i]){
-                        // 이 부분에서 부분 조합 모두가 다 결정.
                      
                         s+=res[i];
-//                        System.out.print(arr[i]+ " ");
                      
                     }
                 }
@@ -35,11 +29,6 @@ class Solution {
                 }
                 int ns=Integer.parseInt(s);
                 set.add(ns);
-                
-//                System.out.println(Integer.parseInt(s));
-//                System.out.println();
-//                System.out.println(set);
-//                isSosu(s);
                 
                 return;
             }
@@ -86,19 +75,14 @@ class Solution {
     }    
     
     public int solution(String numbers) {
-        arr = numbers.split("");
-        sarr = new ArrayList<>();
-        N = arr.length;
-        chk = new boolean[N];
-        chk2 = new boolean[N];
+        arr = numbers.split(""); // 입력받는 숫자들을 String 배열로 넣음
+        N = arr.length; // arr의 길이
+        chk = new boolean[N]; // 순열을 체크하는 TF 배열
+        chk2 = new boolean[N]; // 조합을 체크하는 TF 배열
+        res = new String[N]; // 순열의 결과를 담는 배열 - 추후 이 배열을 기반으로 조합에 사용됨.
         set = new HashSet<Integer>();
         cnt = 0;
-        res = new String[N];
         
-        for(int i=0; i<N; i++) {
-        	sarr.add(arr[i]);
-        }
-
         permutation(0);
         
         Iterator<Integer> res = set.iterator();
