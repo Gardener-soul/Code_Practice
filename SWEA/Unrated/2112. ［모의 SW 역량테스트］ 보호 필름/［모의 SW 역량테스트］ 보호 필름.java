@@ -1,96 +1,93 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Solution {
-	
-	static int R, K, C, Kcnt, iCnt, cnt, ans;
-	static boolean[] sel;
-	static int[] A, B;
-	static int[][] map, copyMap;
+
+	static int R, C, K, ans;
+	static int[] zero, one;
+	static int[][] map;
 
 	static boolean chk() {
-		
-		Kcnt=0;
-		
-		for(int c=0; c<C; c++) {
-			cnt = 0; //열이 바뀔 때마다 cnt 초기화
-			for(int r=0; r<R-1; r++) {
-				if((copyMap[r][c]==1&&copyMap[r+1][c]==1)||(copyMap[r][c]==0&&copyMap[r+1][c]==0)) { //
+		int pass = 0;
+		for (int c = 0; c < C; c++) {
+			int cnt = 1;
+			for (int r = 1; r < R; r++) {
+				if (map[r][c] == map[r - 1][c]) {
 					cnt++;
-				} else {cnt = 0;}
-				
-				if(cnt == K-1) {
-					Kcnt++;
+				} else {
+					cnt = 1;
+				}
+
+				if (cnt == K) {
+					pass++;
 					break;
 				}
 			}
-		} // 0과 1을 잘 셀 수 있게 되었음
-		
-		if(Kcnt == C) {
+
+		}
+		if (pass == C) {
 			return true;
 		} else {
 			return false;
 		}
-		
-    }
-	// injection(0);
-	public static void injection(int idx, int iCnt) {
-		// 백트래킹으로 무언갈 한다.
-		if(ans<=iCnt) {
+	}
+
+	public static void com(int level, int start) {
+
+		if (ans <= level) {
 			return;
 		}
-		
-		
-		if(idx==R) {
-			if(chk()) {	
-				ans=iCnt;
+
+		if (start == R) {
+			if (chk()) {
+				ans = Math.min(ans, level);
 			}
 			return;
 		}
-		
-		injection(idx+1, iCnt);
-		
-		copyMap[idx] = A;
-		injection(idx+1, iCnt+1);
-		
-		copyMap[idx] = B;
-		injection(idx+1, iCnt+1);
-		
-		copyMap[idx] = map[idx];
+		  
+		int[] tmp = map[start];
+		com(level, start+1);
+		map[start] = zero;
+		com(level + 1, start + 1);
+		map[start] = one;
+		com(level + 1, start + 1);
+		map[start] = tmp;
+
 	}
-	
-	public static void main(String[] args) {
-		
-		Scanner scanner = new Scanner(System.in);
-		int T = scanner.nextInt();
-		for(int testCase = 1; testCase<=T; testCase++) {
-			
-			R = scanner.nextInt();
-			C = scanner.nextInt();
-			K = scanner.nextInt(); //연속해야 하는 수의 개수
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		int T = Integer.parseInt(br.readLine());
+		for (int testCase = 1; testCase <= T; testCase++) {
+			st = new StringTokenizer(br.readLine());
+			R = Integer.parseInt(st.nextToken());
+			C = Integer.parseInt(st.nextToken());
+			K = Integer.parseInt(st.nextToken()); // 조건
+
+			zero = new int[C];
+			one = new int[C];
 			map = new int[R][C];
-			copyMap = new int[R][C];
-			A = new int[C];
-			B = new int[C];
-			Arrays.fill(B, 1);
-			
-			ans = K;
-			cnt = 0;
-			Kcnt = 0;
-			sel = new boolean[R];
-			
-			for(int r=0; r<R; r++) {
-				for(int c=0; c<C; c++) {
-					map[r][c] = scanner.nextInt();
-					copyMap[r][c] = map[r][c];
+
+			for (int i = 0; i < C; i++) {
+				one[i] = 1;
+			}
+
+			for (int r = 0; r < R; r++) {
+				st = new StringTokenizer(br.readLine());
+				for (int c = 0; c < C; c++) {
+					map[r][c] = Integer.parseInt(st.nextToken());
 				}
 			}
-			
-			injection(0,0);
 
+			ans = Integer.MAX_VALUE;
+			com(0, 0);
 			System.out.println("#" + testCase + " " + ans);
-			
-		} //tc		
-	} //main
-	
+
+		} // tc
+	}
 }
