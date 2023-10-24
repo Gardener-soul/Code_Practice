@@ -6,113 +6,99 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 class Pair{
-	int x,y;
+	int r, c;
 
-	public Pair(int x, int y) {
+	public Pair(int r, int c) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.r = r;
+		this.c = c;
 	}
 }
 
 public class Main {
 	
-	static int N,M,max;
+	static int R,C,zero;
+	static int res,max = 0;
 	static int[] dr = {-1,1,0,0};
 	static int[] dc = {0,0,-1,1};
 	static int[][] map;
 	static boolean[][] chk;
 	static Queue<Pair> q = new LinkedList<>();
 	
-	public static void makeWall(int level) {
+	public static void bfs() {
 		
-		if(level == 3) {
-			bfs();
-			return;
-		}
-		
-		for(int i=0; i<N; i++) {
-			for(int j=0; j<M; j++) {
-				if(map[i][j]==0) {
-					map[i][j]=1;
-					makeWall(level+1);
-					map[i][j]=0;
-				}
+		for(int r=0; r<R; r++) {
+			for(int c=0; c<C; c++) {
+				if(map[r][c]==2) q.offer(new Pair(r,c));
 			}
 		}
 		
-	}
-	
-	public static void bfs() {
-      
-		for(int i=0; i<N; i++) {
-            for(int j=0; j<M; j++) {
-                if(map[i][j] == 2) {
-                    q.add(new Pair(i,j));
-                }
-            }
-        }
-		
-		int[][] tmpMap = new int[N][M];
-		
-		for (int i = 0; i < N; i++) {
-            tmpMap[i] = map[i].clone();
-        }
-
+		int[][] tmpMap = new int[R][C];
+		for(int r=0; r<R; r++) {
+			tmpMap[r] = map[r].clone();
+		}
 		
 		while(!q.isEmpty()) {
 			
 			Pair tmp = q.poll();
 			
 			for(int d=0; d<4; d++) {
-				int tr = tmp.x + dr[d];
-				int tc = tmp.y + dc[d];
+				int tr = tmp.r + dr[d];
+				int tc = tmp.c + dc[d];
 				
-				if(tr<N && tc<M && tr>=0 && tc>=0 && tmpMap[tr][tc]==0) {
-
+				if(tr<R && tc<C && tr>=0 && tc>=0 && tmpMap[tr][tc]==0) {
 					q.offer(new Pair(tr,tc));
-					tmpMap[tr][tc] = 2;
-					
+					tmpMap[tr][tc]=2;
 				}
+				
 			}
 			
 		}
-		
-		int cnt = 0;
-		for(int i=0; i<N; i++) {
-			for(int j=0; j<M; j++) {
-				if(tmpMap[i][j]==0) cnt++;
+		res = 0;
+		for(int r=0; r<R; r++) {
+			for(int c=0; c<C; c++) {
+				if(tmpMap[r][c]==0) res++;
 			}
 		}
-		max = Math.max(cnt, max);
+		max = Math.max(max, res);
+	}
+	
+	public static void dfs(int idx) {
+		
+		if(idx==3) {
+			bfs();
+			return;
+		}
+		
+		for(int r=0; r<R; r++) {
+			for(int c=0; c<C; c++) {
+				if(map[r][c]==0) {
+					map[r][c]=1;
+					dfs(idx+1);
+					map[r][c]=0;
+				}
+			}
+		}
 	}
 	
 	public static void main(String[] args) throws IOException {
-	
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		R = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		map = new int[R][C];
+		chk = new boolean[R][C];
 		
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		max = 0;
-		
-		map = new int[N][M];
-		chk = new boolean[N][M];
-		
-		for(int i=0; i<N; i++) {
+		for(int r=0; r<R; r++) {
 			st = new StringTokenizer(br.readLine());
-			for(int j=0; j<M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-//				if(map[i][j]==2) {
-//					q.offer(new Pair(i,j));
-//				}
+			for(int c=0; c<C; c++) {
+				map[r][c] = Integer.parseInt(st.nextToken());
 			}
-		}
+		} // 배열 입력 완료
 		
-		makeWall(0);
+		dfs(0);
 		
 		System.out.println(max);
-		
 	}
-	
 }
