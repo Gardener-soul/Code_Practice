@@ -22,7 +22,6 @@ public class Main {
 	static int[] dr = {-1,1,0,0};
 	static int[] dc = {0,0,-1,1};
 	static int[][] map;
-	static boolean[][] chk;
 	static Queue<Pair> q = new LinkedList<>();
 	
 	public static void bfs() {
@@ -88,7 +87,6 @@ public class Main {
 		R = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
 		map = new int[R][C];
-		chk = new boolean[R][C];
 		
 		for(int r=0; r<R; r++) {
 			st = new StringTokenizer(br.readLine());
