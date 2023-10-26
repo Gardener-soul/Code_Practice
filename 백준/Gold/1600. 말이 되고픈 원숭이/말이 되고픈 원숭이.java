@@ -57,6 +57,7 @@ public class Main {
     			   }
     			   q.offer(new Pair(tr,tc,cnt+1,horse));
     		   }
+    		   
     	   }
     	   
     	   if(horse<jump) {
@@ -72,7 +73,9 @@ public class Main {
     			   }
     		   }
     	   }
+    	   
        }
+        
     }
     
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -86,6 +89,7 @@ public class Main {
         map = new int[R][C];
         chk = new boolean[jump+1][R][C];
         
+        	
         for(int r=0; r<R; r++) {
             st = new StringTokenizer(br.readLine());
             for(int c=0; c<C; c++) {
