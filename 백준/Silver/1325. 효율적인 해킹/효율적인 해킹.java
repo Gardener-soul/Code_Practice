@@ -1,24 +1,35 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n;
+	static int N;
 	static int[] rank;
 	static List<Integer>[] list;
+
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		n = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
 		
-		list = new ArrayList[n+1];
-		rank = new int[n+1];
-		for(int i=1; i<n+1; i++) {
+		list = new ArrayList[N+1];
+		rank = new int[N+1];
+		
+		for(int i=1; i<N+1; i++) {
 			list[i] = new ArrayList<>();
 		}
+		
 		for(int i=0; i<m; i++) {
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
@@ -26,16 +37,16 @@ public class Main {
 			list[a].add(b);
 		}
 		
-		int max = Integer.MIN_VALUE;
-		for(int i=1; i<n+1; i++) {
+		int max = 0;
+		for(int i=1; i<N+1; i++) {
 			bfs(i);
 		}
 		
-		for(int i=1; i<n+1; i++) {
+		for(int i=1; i<N+1; i++) {
 			max = Math.max(rank[i], max);
 		}
 		
-		for(int i=1; i<n+1; i++) {
+		for(int i=1; i<N+1; i++) {
 			if(max == rank[i]) {
 				bw.write(i+" ");
 			}
@@ -46,14 +57,16 @@ public class Main {
 	
 	static void bfs(int start) {
 		Queue<Integer> q = new LinkedList<>();
-		boolean[] check = new boolean[n+1];
+		boolean[] chk = new boolean[N+1];
 		q.add(start);
-		check[start] = true;
+		chk[start] = true;
 		while(!q.isEmpty()) {
-			int pos = q.poll();
-			for(int next : list[pos]) {
-				if(!check[next]) {
-					check[next] = true;
+			
+			int num = q.poll();
+			
+			for(int next : list[num]) {
+				if(!chk[next]) {
+					chk[next] = true;
 					rank[next]++;
 					q.add(next);
 				}
