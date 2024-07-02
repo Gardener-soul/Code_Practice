@@ -1,15 +1,17 @@
 class Solution {
     boolean solution(String s) {
-        int yNum = 0;
+        boolean answer = true;
         int pNum = 0;
+        int yNum = 0;
         
         for(int i=0; i<s.length(); i++){
-            if(s.charAt(i)=='y' || s.charAt(i)=='Y') yNum++;
             if(s.charAt(i)=='p' || s.charAt(i)=='P') pNum++;
+            else if (s.charAt(i)=='y'|| s.charAt(i)=='Y') yNum++;
         }
 
-        if(yNum==0 && pNum==0) return true;
-        else if(yNum==pNum) return true;
-        else return false;
+        if(pNum==yNum) answer=true;
+        else answer=false;
+        
+        return answer;
     }
 }
