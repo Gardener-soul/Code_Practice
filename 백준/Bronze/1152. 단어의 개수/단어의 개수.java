@@ -1,20 +1,16 @@
-import java.util.Scanner;
-import java.util.StringTokenizer;
- 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
- 
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
- 
-		String S = in.nextLine();
-		in.close();
- 
-		// st 에 공백을 기준으로 나눈 토큰들을 st 에 저장한다
-		StringTokenizer st = new StringTokenizer(S," ");
-		
-		// countTokens() 는 토큰의 개수를 반환한다
-		System.out.println(st.countTokens());	
-		
-	}
- 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input = br.readLine().trim();
+        String[] arr = input.split(" ");
+        int len = arr.length;
+        if(arr[0].isEmpty()) len--;
+        if(arr[arr.length-1].isEmpty()) len--;
+        if(len==-1) len=0;
+        System.out.println(len);
+    }
 }
