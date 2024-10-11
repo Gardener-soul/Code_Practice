@@ -1,39 +1,34 @@
+import java.util.*;
+
 class Solution {
-    
-    static int ans;
+    static int answer;
     static boolean[] chk;
     
-    public static void powerset(int[] numbers, boolean[] chk, int target, int idx){
-        
-        if(idx==numbers.length){
+    public static void perm(int[] numbers,boolean[] chk, int idx, int target) {
+        if(idx == numbers.length) {
             int tmp = 0;
-            for(int i=0; i<chk.length; i++){
-                if(chk[i]) {
-                    tmp+=numbers[i];
-                } else {
-                    tmp-=numbers[i];
-                }
+            
+            for(int i=0; i<numbers.length; i++) {
+                if(chk[i]) tmp+=numbers[i];
+                else tmp-=numbers[i];
             }
             
-            if(tmp==target) ans++;
             
+            if(tmp==target) answer++;
             return;
         }
         
         chk[idx] = false;
-        powerset(numbers,chk,target,idx+1);
-        
+        perm(numbers, chk, idx+1, target);
         chk[idx] = true;
-        powerset(numbers,chk,target,idx+1);
+        perm(numbers, chk, idx+1, target);
         
     }
     
-    public int solution(int[] numbers, int target) {  
-        ans = 0;
+    public int solution(int[] numbers, int target) {
+        answer = 0;
         chk = new boolean[numbers.length];
-        
-        powerset(numbers,chk,target,0);
-        
-        return ans;
+        perm(numbers,chk, 0, target);
+        return answer;
     }
 }
