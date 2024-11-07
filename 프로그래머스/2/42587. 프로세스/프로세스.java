@@ -35,8 +35,6 @@ class Solution {
             int index = tmp.idx;
             int prior = tmp.pri;
             
-            System.out.println(index + " " + prior);
-            
             if(flag) {
                 if(prior == max) {
                     q.poll();
@@ -58,7 +56,6 @@ class Solution {
         }
         
         System.out.println(map);
-        
         
         return answer;
     }
