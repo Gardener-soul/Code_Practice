@@ -5,48 +5,39 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
+
+    public static void add(HashSet<Integer> set, int a) {
+        set.add(a);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder(); // 출력 모으기
-        int loop = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        int loop = Integer.parseInt(st.nextToken());
         HashSet<Integer> set = new HashSet<>();
 
-        for (int i = 0; i < loop; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i=0; i<loop; i++) {
+            st = new StringTokenizer(br.readLine());
             String order = st.nextToken();
             int a = 0;
+            if(!order.equals("all") && !order.equals("empty")) a = Integer.parseInt(st.nextToken());
 
-            if (!order.equals("all") && !order.equals("empty")) {
-                a = Integer.parseInt(st.nextToken());
+            if(order.equals("add")) set.add(a);
+            else if (order.equals("remove")) set.remove(a);
+            else if (order.equals("check")) {
+                if(set.contains(a)) sb.append(1).append("\n");
+                else sb.append(0).append("\n");
             }
-
-            switch (order) {
-                case "add":
-                    set.add(a);
-                    break;
-                case "remove":
-                    set.remove(a);
-                    break;
-                case "check":
-                    sb.append(set.contains(a) ? 1 : 0).append("\n");
-                    break;
-                case "toggle":
-                    if (set.contains(a)) {
-                        set.remove(a);
-                    } else {
-                        set.add(a);
-                    }
-                    break;
-                case "all":
-                    for (int b = 1; b <= 20; b++) {
-                        set.add(b);
-                    }
-                    break;
-                case "empty":
-                    set.clear();
-                    break;
+            else if (order.equals("toggle")) {
+                if (set.contains(a)) set.remove(a);
+                else set.add(a);
             }
+            else if (order.equals("all")){
+                for(int b=1; b<=20; b++) set.add(b);
+            }
+            else if (order.equals("empty")) set.clear();
         }
-        System.out.print(sb); // 한 번에 출력
+        System.out.println(sb);
     }
 }
