@@ -20,21 +20,24 @@ public class Main {
 
         List<Map.Entry<String,Integer>> entryList = new ArrayList<>(map.entrySet());
 
-        entryList.sort((e1,e2) -> {
-            int rep = e2.getValue().compareTo(e1.getValue());
-            if(rep!=0) return rep;
+        entryList.sort((e1,e2)->{
+           int rep = e2.getValue().compareTo(e1.getValue());
+           if(rep!=0) return rep;
 
-            int len = Integer.compare(e2.getKey().length(), e1.getKey().length());
-            if(len!=0) return len;
+           int len = Integer.compare(e2.getKey().length(), e1.getKey().length());
+           if(len!=0) return len;
 
-            return e1.getKey().compareTo(e2.getKey());
+           return e1.getKey().compareTo(e2.getKey());
 
         });
 
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<String,Integer> ans : entryList) {
-            sb.append(ans.getKey()).append("\n");
+            sb.append(ans.getKey());
+            sb.append("\n");
         }
+
         System.out.println(sb);
+
     }
 }
